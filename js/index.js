@@ -102,11 +102,7 @@ function keydownHandler(e) {
     } else {
       toggleButton.click();
     }
-  } else if (
-    e.key === "a" &&
-    e.ctrlKey &&
-    beforeStart.classList.contains("hidden")
-  ) {
+  } else if (e.key === "s" && beforeStart.classList.contains("hidden")) {
     stopButton.click();
   } else if (e.key === "ArrowRight") {
     e.preventDefault();
