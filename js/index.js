@@ -103,7 +103,7 @@ function keydownHandler(e) {
       toggleButton.click();
     }
   } else if (
-    e.key === "s" &&
+    e.key === "a" &&
     e.ctrlKey &&
     beforeStart.classList.contains("hidden")
   ) {
