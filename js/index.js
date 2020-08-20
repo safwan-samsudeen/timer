@@ -83,6 +83,7 @@ function stopTimer() {
   }
   title.innerHTML = "Infinite Timer";
 }
+
 function setTimeOnChange(e) {
   const seconds =
     parseInt(minsInput.value || 0) * 60 + parseInt(secondsInput.value || 0);
@@ -90,11 +91,13 @@ function setTimeOnChange(e) {
   else if (seconds <= 0) setTime("0:00");
   else setTime(toTime(seconds));
 }
+
 function jump(jumper) {
   currentSeconds += jumper;
   clearInterval(interval);
   startTimer(Math.floor(currentSeconds / 60), currentSeconds % 60);
 }
+
 function keydownHandler(e) {
   if (e.key === " ") {
     if (!beforeStart.classList.contains("hidden")) {
@@ -103,7 +106,7 @@ function keydownHandler(e) {
       toggleButton.click();
     }
   } else if (
-    e.key === "a" &&
+    e.key === "s" &&
     e.ctrlKey &&
     beforeStart.classList.contains("hidden")
   ) {
