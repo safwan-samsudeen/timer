@@ -55,7 +55,7 @@ function startTimer(mins, seconds, e) {
     setTime(toTime(--currentSeconds));
     if (currentSeconds === 0) {
       clearInterval(interval);
-      flash(() => new Audio("../end.wav").play());
+      flash(() => new Audio("end.wav").play());
       reset();
     }
   }, 1000);
@@ -102,7 +102,11 @@ function keydownHandler(e) {
     } else {
       toggleButton.click();
     }
-  } else if (e.key === "s" && beforeStart.classList.contains("hidden")) {
+  } else if (
+    e.key === "s" &&
+    e.ctrlKey &&
+    beforeStart.classList.contains("hidden")
+  ) {
     stopButton.click();
   } else if (e.key === "ArrowRight") {
     e.preventDefault();
