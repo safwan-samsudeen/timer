@@ -22,7 +22,11 @@ function toTime(mins) {
 function setTime(value) {
   time.innerHTML = value;
   if (beforeStart.classList.contains("hidden"))
-    title.innerHTML = "Time Left: " + value;
+    setTitle("Time left: " + value);
+}
+
+function setTitle(value) {
+  title.innerHTML = value
 }
 
 function reset() {
@@ -65,6 +69,7 @@ function toggleTimer(e) {
   if (toggleButton.dataset.action === "pause") {
     clearInterval(interval);
     toggleButton.setAttribute("data-action", "resume");
+    setTitle("Paused");
     toggleButton.textContent = "Resume";
   } else {
     startTimer(Math.floor(currentSeconds / 60), currentSeconds % 60);
