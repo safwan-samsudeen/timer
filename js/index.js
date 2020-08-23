@@ -12,6 +12,22 @@ const title = document.querySelector("title");
 
 let currentSeconds, interval;
 
+function notify(message) {
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    var notification = new Notification(message);
+  } else if (Notification.permission === "denied") {
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        var notification = new Notification("Infinite Clock", {
+          body: message
+        });
+      }
+    });
+  }
+}
+
 function toTime(mins) {
   const timeArray = [Math.floor(mins / 60), mins % 60];
   timeArray[1] =
@@ -30,7 +46,8 @@ function setTitle(value) {
 
 function reset() {
   currentSeconds = 0;
-  setTime("0:00");
+  setTime("30:00");
+  form.reset();
   afterStart.classList.add("hidden");
   beforeStart.classList.remove("hidden");
 }
@@ -135,26 +152,3 @@ stopButton.addEventListener("click", stopTimer);
 minsInput.addEventListener("keyup", setTimeOnChange);
 secondsInput.addEventListener("keyup", setTimeOnChange);
 document.addEventListener("keydown", keydownHandler);
-
-function notify(message) {
-  // Let's check if the browser supports notifications
-  if (!("Notification" in window)) {
-    alert("This browser does not support desktop notification");
-  }
-
-  // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var notification = new Notification(message);
-  }
-
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        var notification = new Notification(message);
-      }
-    });
-  }
-}
