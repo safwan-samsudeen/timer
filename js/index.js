@@ -21,12 +21,11 @@ function toTime(mins) {
 
 function setTime(value) {
   time.innerHTML = value;
-  if (beforeStart.classList.contains("hidden"))
-    setTitle("Time left: " + value);
+  if (beforeStart.classList.contains("hidden")) setTitle("Time left: " + value);
 }
 
 function setTitle(value) {
-  title.innerHTML = value
+  title.innerHTML = value;
 }
 
 function reset() {
@@ -58,6 +57,7 @@ function startTimer(mins, seconds, e) {
   interval = setInterval(() => {
     setTime(toTime(--currentSeconds));
     if (currentSeconds === 0) {
+      notify("Your timer has ended.");
       clearInterval(interval);
       flash(() => new Audio("end.wav").play());
       reset();
@@ -135,3 +135,26 @@ stopButton.addEventListener("click", stopTimer);
 minsInput.addEventListener("keyup", setTimeOnChange);
 secondsInput.addEventListener("keyup", setTimeOnChange);
 document.addEventListener("keydown", keydownHandler);
+
+function notify(message) {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification(message);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification(message);
+      }
+    });
+  }
+}
