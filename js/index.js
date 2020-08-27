@@ -1,3 +1,4 @@
+// jshint esversion: 6
 const form = document.querySelector("form");
 const minsInput = document.querySelector(".mins-input");
 const secondsInput = document.querySelector(".seconds-input");
@@ -17,8 +18,8 @@ function notify(message) {
     alert("This browser does not support desktop notification");
   } else if (Notification.permission === "granted") {
     var notification = new Notification(message);
-  } else if (Notification.permission === "denied") {
-    Notification.requestPermission().then(function (permission) {
+  } else if (Notification.permission === "denied" || Notification.permission === "default") {
+    Notification.requestPermission().then(function(permission) {
       if (permission === "granted") {
         var notification = new Notification("Infinite Clock", {
           body: message
@@ -45,6 +46,7 @@ function setTitle(value) {
 }
 
 function reset() {
+  console.log("In");
   currentSeconds = 0;
   setTime("30:00");
   form.reset();
@@ -74,10 +76,10 @@ function startTimer(mins, seconds, e) {
   interval = setInterval(() => {
     setTime(toTime(--currentSeconds));
     if (currentSeconds === 0) {
-      notify("Your timer has ended.");
       clearInterval(interval);
-      flash(() => new Audio("end.wav").play());
       reset();
+      flash(() => new Audio("end.wav").play());
+      notify("Your timer has ended.");
     }
   }, 1000);
 }
